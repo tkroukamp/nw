@@ -8,11 +8,56 @@
   <meta charset="UTF-8">
   <title>DaVinci Test Environment</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="index.js"></script>  
 </head>
 <body>
+<!-- DaVinci HTML Starts Here -->
 
-  <!-- Test code will be added here -->
 
-  <script src="index.js"></script>
+
+
+<!--
+Ver 1.2
+12/05/2024 - Updated by Venkat
+UI/UX Updates
+-->
+<div class="nw-davinci-root">
+  <div id="mainDiv">
+     <div id="nw-davinci-flex-container">
+             <div class="companyLogo"></div>
+               <div class="full-width-wrapper"><hr class="full-width-line mb-6"></div>
+       <div class="row justify-content-center align-items-center" id="nw-davinci-flex-row">
+         <div class="col-sm-12 col-md-8 col-lg-6" id="nw-davinci-flex-column">
+           <div class="card">
+               <h2 class="text-left mb-4">Retrieve username & password</h2>
+               <label class="text-left mb-3">
+                 We'll need a little more information to find you
+               </label>
+               <p class="text-danger mdi mdi-alert-circle" data-id="feedback" data-skcomponent="skerror" aria-live="assertive" role="alert"></p>
+               <!-- Form where elements are dynamically inserted -->
+               <form id="userInfoForm" data-id="userInfoForm">
+               </form>
+               
+                 <!-- Submit Button -->
+                 <div class="d-flex flex-column mt-5">
+                   <button data-id="button" type="submit" class="bolt-btn-primary mb-3" data-skcomponent="skbutton" data-skform="userInfoForm" id="btnSubmit" data-skbuttonvalue="submit">Continue</button>
+                   
+                   <button type="submit" class="bolt-btn-link mt-4" data-skcomponent="skbutton" data-skbuttontype="next-event" data-skform="userInfoForm" id="btnCancel" data-skbuttonvalue="cancel">
+                     Back
+                   </button>
+                 </div>
+             </div>
+             <p class="mt-5 text-muted">{{global.parameters.appCustomMessage}}</p>
+           </div>
+           
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ 
+ 
+
+<!-- DaVinci HTML Starts Here -->
 </body>
 </html>
