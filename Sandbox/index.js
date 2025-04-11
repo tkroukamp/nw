@@ -51,21 +51,21 @@ const jsonResponse = `{
   
     const fields = [
       {
-        name: "first_name",
+        name: "fname",
         label: "First name",
         type: "text",
         value: data.first_name || "",
         lockIfPresent: true,
       },
       {
-        name: "last_name",
+        name: "lname",
         label: "Last name",
         type: "text",
         value: data.last_name || "",
         lockIfPresent: true,
       },
       {
-        name: "cell_phone",
+        name: "phone",
         label: "Phone number",
         type: "tel",
         value: data.cell_phone ? formatPhoneNumber(data.cell_phone) : "",
@@ -142,9 +142,9 @@ const jsonResponse = `{
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   
   const fieldsConfig = [
-    { name: "first_name", label: "First name", required: true, type: "text" },
-    { name: "last_name", label: "Last name", required: true, type: "text" },
-    { name: "cell_phone", label: "Phone number", required: true, type: "tel" },
+    { name: "fname", label: "First name", required: true, type: "text" },
+    { name: "lname", label: "Last name", required: true, type: "text" },
+    { name: "phone", label: "Phone number", required: true, type: "tel" },
     { name: "email", label: "Email address", required: true, type: "email" },
   ]
   
