@@ -19,71 +19,89 @@ eventtype=P1PilotB2C "Custom Analytics" "embedded.flowInteractionEvent.flowId"="
 | table OutcomeType, OutcomeStatus, count, percentage
 
 
-<dashboard>
-    <label>Flow Outcome Dashboard</label>
-    <description>Breakdown of Outcome Statuses by Flow</description>
+{
+    "visualizations": {
+      "viz_table": {
+        "type": "splunk.table",
+        "title": "OutcomeType → OutcomeStatus Breakdown",
+        "dataSources": {
+          "primary": "ds_outcome_table"
+        }
+      },
+      "viz_chart": {
+        "type": "splunk.column",
+        "title": "Outcome Status Count by Outcome Type",
+        "options": {
+          "stackMode": "stacked"
+        },
+        "dataSources": {
+          "primary": "ds_outcome_chart"
+        }
+      }
+    },
+    "dataSources": {
+      "ds_outcome_table": {
+        "type": "ds.search",
+        "options": {
+          "query": "eventtype=P1PilotB2C \"Custom Analytics\" \"embedded.flowInteractionEvent.flowId\"=\"$flowId$\"\n| stats count by \"embedded.flowInteractionEvent.outcomeType\", \"embedded.flowInteractionEvent.outcomeStatus\"\n| eventstats sum(count) as type_total by \"embedded.flowInteractionEvent.outcomeType\"\n| eval percentage=round((count / type_total) * 100, 2)\n| rename \"embedded.flowInteractionEvent.outcomeType\" as OutcomeType, \"embedded.flowInteractionEvent.outcomeStatus\" as OutcomeStatus\n| table OutcomeType, OutcomeStatus, count, percentage",
+          "queryParameters": {
+            "earliest": "-24h@h",
+            "latest": "now"
+          }
+        },
+        "name": "Outcome Table Query"
+      },
+      "ds_outcome_chart": {
+        "type": "ds.search",
+        "options": {
+          "query": "eventtype=P1PilotB2C \"Custom Analytics\" \"embedded.flowInteractionEvent.flowId\"=\"$flowId$\"\n| stats count by \"embedded.flowInteractionEvent.outcomeType\", \"embedded.flowInteractionEvent.outcomeStatus\"\n| rename \"embedded.flowInteractionEvent.outcomeType\" as OutcomeType, \"embedded.flowInteractionEvent.outcomeStatus\" as OutcomeStatus",
+          "queryParameters": {
+            "earliest": "-24h@h",
+            "latest": "now"
+          }
+        },
+        "name": "Outcome Chart Query"
+      }
+    },
+    "inputs": {
+      "input_flowId": {
+        "type": "input.dropdown",
+        "title": "Select Flow ID",
+        "options": {
+          "items": [
+            { "label": "Flow A", "value": "5d3ea931fdb1e0756a0bcceca5fa1359" },
+            { "label": "Flow B", "value": "abcd1234" },
+            { "label": "Flow C", "value": "xyz789" }
+          ],
+          "defaultValue": "5d3ea931fdb1e0756a0bcceca5fa1359"
+        },
+        "token": "flowId"
+      }
+    },
+    "layout": {
+      "type": "grid",
+      "options": {
+        "columns": 12
+      },
+      "structure": [
+        {
+          "item": "input_flowId",
+          "type": "input",
+          "position": { "x": 0, "y": 0, "w": 6, "h": 1 }
+        },
+        {
+          "item": "viz_table",
+          "type": "visualization",
+          "position": { "x": 0, "y": 1, "w": 12, "h": 4 }
+        },
+        {
+          "item": "viz_chart",
+          "type": "visualization",
+          "position": { "x": 0, "y": 5, "w": 12, "h": 4 }
+        }
+      ]
+    },
+    "description": "Dashboard showing flow outcome breakdowns",
+    "title": "Flow Outcome Dashboard"
+  }
   
-    <input type="dropdown" token="flowId" searchWhenChanged="true">
-      <label>Select Flow ID</label>
-      <default>5d3ea931fdb1e0756a0bcceca5fa1359</default>
-      <choice value="5d3ea931fdb1e0756a0bcceca5fa1359">Flow A</choice>
-      <choice value="abcd1234">Flow B</choice>
-      <choice value="xyz789">Flow C</choice>
-      <!-- Add more as needed -->
-    </input>
-  
-    <row>
-      <panel>
-        <title>OutcomeType → OutcomeStatus Table</title>
-        <table>
-          <search>
-            <query>
-              <![CDATA[
-  eventtype=P1PilotB2C "Custom Analytics" "embedded.flowInteractionEvent.flowId"="$flowId$"
-  | stats count by "embedded.flowInteractionEvent.outcomeType", "embedded.flowInteractionEvent.outcomeStatus"
-  | eventstats sum(count) as type_total by "embedded.flowInteractionEvent.outcomeType"
-  | eval percentage=round((count / type_total) * 100, 2)
-  | rename "embedded.flowInteractionEvent.outcomeType" as OutcomeType, "embedded.flowInteractionEvent.outcomeStatus" as OutcomeStatus
-  | table OutcomeType, OutcomeStatus, count, percentage
-              ]]>
-            </query>
-          </search>
-        </table>
-      </panel>
-    </row>
-  
-    <row>
-      <panel>
-        <title>Stacked Bar: Outcome Status by Type</title>
-        <chart>
-          <search>
-            <query>
-              <![CDATA[
-  eventtype=P1PilotB2C "Custom Analytics" "embedded.flowInteractionEvent.flowId"="$flowId$"
-  | stats count by "embedded.flowInteractionEvent.outcomeType", "embedded.flowInteractionEvent.outcomeStatus"
-  | rename "embedded.flowInteractionEvent.outcomeType" as OutcomeType, "embedded.flowInteractionEvent.outcomeStatus" as OutcomeStatus
-              ]]>
-            </query>
-          </search>
-          <option name="charting.chart">column</option>
-          <option name="charting.chart.stackMode">stacked</option>
-          <option name="charting.seriesColors">["0A9396", "EE9B00", "CA6702", "BB3E03", "AE2012", "9B2226"]</option>
-          <option name="charting.axisTitleX.text">Outcome Type</option>
-          <option name="charting.axisTitleY.text">Count</option>
-          <option name="charting.legend.placement">right</option>
-        </chart>
-      </panel>
-    </row>
-  </dashboard>
-  
-
-
-<input type="dropdown" token="flowId" searchWhenChanged="true">
-    <label>Select Flow ID</label>
-    <default>5d3ea931fdb1e0756a0bcceca5fa1359</default>
-    <search>
-    <query>index=your_index_name_here "embedded.flowInteractionEvent.flowId"=* | stats count by "embedded.flowInteractionEvent.flowId" | sort -count</query>
-    </search>
-    <fieldForLabel>embedded.flowInteractionEvent.flowId</fieldForLabel>
-    <fieldForValue>embedded.flowInteractionEvent.flowId</fieldForValue>
-</input>
