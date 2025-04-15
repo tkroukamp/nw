@@ -1,0 +1,4 @@
+eventtype=P1PilotB2C "Custom Analytics" "embedded.flowInteractionEvent.flowId"="5d3ea931fdb1e0756a0bcceca5fa1359"
+| stats count by "embedded.flowInteractionEvent.outcomeStatus" 
+| sort -count by "embedded.flowInteractionEvent.outcomeStatus" 
+| table "embedded.flowInteractionEvent.outcomeStatus", count
