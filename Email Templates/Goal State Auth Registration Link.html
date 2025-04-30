@@ -305,28 +305,41 @@
                     >contact us.</a
                   >
                 </div>
-                <div
-                  style="
-                    margin-bottom: 18px;
-                    font-weight: 600;
-                    padding-left: 90px;
-                    padding-right: 90px;
-
-                  "
-                >
-                  <a
-                    href="${basePingFedURL}${bsaRegURL}&action=proxycompletion&token=${token}"
-                    style="
-                      background-color: #6ECEB2;
-                      color: black;
-                      padding: 10px 20px;
-                      text-align: center;
-                      text-decoration: none;
-                      border-radius: 5px;
-                    "
-                    >Activate your account</a
-                  >
-                </div>
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:18px; margin-left:auto; margin-right:auto;">
+                  <tr>
+                    <td align="center">
+                      <!--[if mso]>
+                      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                        href="${basePingFedURL}${bsaRegURL}&action=proxycompletion&token=${token}"
+                        style="height:50px;v-text-anchor:middle;width:300px;" arcsize="10%" stroke="f" fillcolor="#6ECEB2">
+                        <w:anchorlock/>
+                        <center style="color:black;font-family:sans-serif;font-size:16px;font-weight:600;">
+                          Activate your account
+                        </center>
+                      </v:roundrect>
+                      <![endif]-->
+                      <![if !mso]>
+                      <a href="${basePingFedURL}${bsaRegURL}&action=proxycompletion&token=${token}"
+                         target="_blank"
+                         style="display:inline-block;
+                                background-color:#6ECEB2;
+                                color:black;
+                                font-family:sans-serif;
+                                font-size:16px;
+                                font-weight:600;
+                                line-height:50px;
+                                text-align:center;
+                                text-decoration:none;
+                                width:300px;
+                                border-radius:5px;
+                                -webkit-border-radius:5px;
+                                -moz-border-radius:5px;">
+                         Activate your account
+                      </a>
+                      <![endif]>
+                    </td>
+                  </tr>
+                </table>
               </td>
             </tr>
           </table>
